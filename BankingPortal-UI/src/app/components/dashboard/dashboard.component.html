@@ -1,0 +1,19 @@
+<div class="coverparentspace">
+
+  <div class="cards-wrapper w-full flex gap-2">
+    <div class="w-full mb-2">
+      <app-userprofilecard></app-userprofilecard>
+    </div>
+    <div class="w-full mb-2">
+      <app-accountdetailcard></app-accountdetailcard>
+    </div>
+  </div>
+
+
+
+
+  <app-transaction-history></app-transaction-history>
+
+
+</div>
+<app-pin-creation-model *ngIf="showPINCreationModel" (redirect)="redirectToPINCreationPage()"></app-pin-creation-model>

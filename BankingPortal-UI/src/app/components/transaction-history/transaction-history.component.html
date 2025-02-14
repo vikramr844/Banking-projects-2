@@ -1,0 +1,84 @@
+<div class="coverparentspace">
+
+  <div class="flex gap-5 flex-col">
+
+
+    <app-transaction-linechart *ngIf="transactionHistory.length!=0" [transactions]="transactionHistory" />
+
+    <div class="flex flex-col gap-5 md:flex-row space-y-4 md:space-y-0">
+      <div class="w-full">
+        <app-monthly-transaction-chart *ngIf="transactionHistory.length!=0"
+          [transactions]="transactionHistory"></app-monthly-transaction-chart>
+      </div>
+      <div class="w-full">
+        <app-daily-transaction-piechart *ngIf="transactionHistory.length!=0" [transactions]="transactionHistory" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="shadow my-4 shadow p-2 bg-white">
+    <h4 class="mb-4 text-lg font-semibold text-gray-600">Filter by Transaction Type</h4>
+    <div class="relative my-4 flex items-center">
+      <div class="flex-grow">
+        <select id="filterCriteria" formControlName="filterCriteria" (change)="onFilterCriteriaChange($event)"
+          class="block w-full p-3 bg-white border border-gray-300 rounded-md shadow focus:ring focus:ring-opacity-50 focus:ring-blue-500 focus:border-blue-500 sm:text-sm custom-select">
+          <!-- Increase font size (text-lg) and add padding (py-2) -->
+          <option value="Deposit" class="text-lg py-2">Deposits</option> <!-- Increase font size and add padding -->
+          <option value="Withdrawal" class="text-lg py-2">Withdrawals</option>
+          <!-- Increase font size and add padding -->
+          <option value="Transfer" class="text-lg py-2">Transfers/Credited</option>
+          <!-- Increase font size and add padding -->
+          <option [attr.selected]="true" value="" class="text-lg py-2">All Transactions</option>
+        </select>
+      </div>
+
+      <app-donwloadtransactions [data]="transactionHistory" />
+
+
+    </div>
+
+
+
+
+    <div class="w-full border border-gray-200 mb-4">
+      <div class="w-full overflow-x-auto" *ngIf="!(filteredTransactionHistory.length === 0)">
+        <table class="w-full rounded-lg">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b border-gray-700 bg-gray-50">
+              <th class="px-4 py-3">Transaction ID</th>
+              <th class="px-4 py-3">Amount</th>
+
+              <th class="px-4 py-3">Transaction Date</th>
+              <th class="px-4 py-3">Transaction Type</th>
+              <th class="px-4 py-3">Source Account Number</th>
+              <th class="px-4 py-3">Target Account Number</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-300">
+            <tr *ngFor="let transaction of filteredTransactionHistory" class="text-gray-900">
+              <td class="px-4 py-3 text-center">{{ transaction.id }}</td>
+              <td class="px-4 py-3 font-semibold">{{ transaction.amount | currency:'INR':'symbol' }}</td>
+
+              <td class="px-4 py-3 text-center">{{ transaction.transactionDate | date:'yyyy-MM-dd' }}</td>
+
+              <td class="px-4 py-3 text-center">
+                <span
+                  class="{{ getTransactionStatus(transaction) }}-color px-2 py-1 font-semibold leading-tight  text-sm rounded-full">{{
+                  getTransactionStatus(transaction) }}</span>
+              </td>
+              <td class="px-4 py-3 text-center">{{ transaction.sourceAccountNumber }}</td>
+              <td class="px-4 py-3 text-center">{{ transaction.targetAccountNumber }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="filteredTransactionHistory.length === 0" class="text-center mt-4">
+    <p class="text-3xl font-semibold text-gray-900">No Transaction History</p>
+  </div>
+</div>

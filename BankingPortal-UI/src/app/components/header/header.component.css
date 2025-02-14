@@ -1,0 +1,38 @@
+/* app-header.component.css */
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  z-index: 50;
+  background-color: white;
+}
+
+.showonSmall {
+  display: none;
+}
+
+@media (max-width: 640px) {
+
+  .showonSmall {
+    display: block;
+  }
+
+  h1 {
+    font-weight: 600;
+  }
+
+  header {
+    padding: 0px;
+  }
+
+  .smallscreen {
+    padding: 4px;
+    font-size: x-small;
+    font-weight: normal;
+    width: fit-content;
+
+  }
+}
